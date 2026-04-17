@@ -120,29 +120,30 @@
 
         .name-row { margin-top: 10px; }
 
-        /* ---------------- เอฟเฟกต์ชื่อแบบ Hacker Glitch (เพิ่มใหม่) ---------------- */
+        /* ---------------- เอฟเฟกต์ชื่อแบบ Hacker Glitch (แก้แล้ว) ---------------- */
         .glitch-hacker {
             margin: 0; font-size: 1.8rem; font-weight: 700; 
             color: #fff;
             position: relative;
-            display: inline-block;
-            animation: hackerFlicker 3s infinite; /* ไฟกระพริบ */
+            display: block; /* แก้ตรงนี้ให้บังคับแยกบรรทัด */
+            width: fit-content; /* ให้กรอบกว้างพอดีตัวหนังสือ */
+            white-space: nowrap; /* ป้องกันการตัดบรรทัดที่ทำให้ภาพขาดครึ่ง */
+            animation: hackerFlicker 3s infinite; 
         }
 
-        /* สร้าง Layer ซ้อนกันเพื่อทำภาพแตก */
         .glitch-hacker::before, .glitch-hacker::after {
-            content: attr(data-text); /* ดึงข้อความจาก data-text มาแสดง */
+            content: attr(data-text); 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: transparent; pointer-events: none;
         }
         
         .glitch-hacker::before {
-            left: 2px; text-shadow: -1px 0 rgba(0, 255, 255, 0.8); /* สีฟ้า Cyan */
+            left: 2px; text-shadow: -1px 0 rgba(0, 255, 255, 0.8); 
             animation: glitch-anim 2s infinite linear alternate-reverse;
         }
         
         .glitch-hacker::after {
-            left: -2px; text-shadow: -1px 0 rgba(255, 0, 255, 0.8); /* สีชมพู Magenta */
+            left: -2px; text-shadow: -1px 0 rgba(255, 0, 255, 0.8); 
             animation: glitch-anim2 3s infinite linear alternate-reverse;
         }
 
@@ -305,7 +306,7 @@
         <div class="profile-section reveal-2">
             <div class="profile-pic-container">
                 <img src="https://scontent.fnak2-1.fna.fbcdn.net/v/t39.30808-1/419659267_1559733161458203_6192749366589961485_n.jpg?stp=c3.7.730.730a_dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_ohc=WXGCrAk6XR4Q7kNvwFZp91v&_nc_oc=AdqxErkC3klEIY1Zy78Z9kYOUr5iB9GCZAgDd_OANsbfzcE2PpztTl1CvL4_h9FJtulkhYi3-W6zdTxDNvkWRn-r&_nc_zt=24&_nc_ht=scontent.fnak2-1.fna&_nc_gid=AVkb-VIlQqETSVWCB9UeSQ&_nc_ss=7a3a8&oh=00_Af0D_5-WKJFnhP6l6pRjHuDdoWQQRC6_FfUrvyXUA8VBXQ&oe=69E7576E" alt="Profile" class="profile-pic">
-                <div class="status-badge">ซื้อโปรกดลิ้งด้านล่างเลย👀</div>
+                <div class="status-badge">ซื้อโปรกดด้านล่างเลย👀</div>
             </div>
 
             <div class="name-row">
@@ -331,7 +332,7 @@
         <div class="card reveal-4">
             <div class="card-header"><i class="far fa-calendar-alt"></i> เป็นประชากรบนโลกตอน</div>
             <div class="card-content" style="font-weight: 500;">
-                " ??/??/2009 "
+                 ??/??/2009 
             </div>
         </div>
 
@@ -461,4 +462,3 @@
     </script>
 </body>
 </html>
-
