@@ -38,9 +38,7 @@
             100% { background-position: 100% 100%; }
         }
 
-        /* -------------------------------------
-           เอฟเฟกต์หน้า Click to Enter 
-           ------------------------------------- */
+        /* เอฟเฟกต์หน้า Click to Enter */
         #enter-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.95); z-index: 9999;
@@ -60,14 +58,10 @@
             50% { opacity: 1; transform: scale(1.02); } 
         }
 
-        /* -------------------------------------
-           เอฟเฟกต์ตอนเผยหน้า Bio (Staggered Animation)
-           ------------------------------------- */
+        /* เอฟเฟกต์ตอนเผยหน้า Bio */
         .container {
-            width: 100%; max-width: 420px;
-            position: relative;
-            padding-bottom: 2rem;
-            display: none; /* ถูกควบคุมด้วย JS */
+            width: 100%; max-width: 420px; position: relative;
+            padding-bottom: 2rem; display: none;
         }
 
         @keyframes smoothReveal {
@@ -75,7 +69,6 @@
             100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
-        /* ตั้งค่าความหน่วงให้แต่ละส่วนเด้งขึ้นมาไม่พร้อมกัน */
         .reveal-1 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
         .reveal-2 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards; opacity: 0; }
         .reveal-3 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards; opacity: 0; }
@@ -83,21 +76,19 @@
         .reveal-5 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards; opacity: 0; }
         .reveal-6 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s forwards; opacity: 0; }
         .reveal-7 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; opacity: 0; }
+        .reveal-8 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.7s forwards; opacity: 0; }
 
-
-        /* รูปปก */
+        /* รูปปก & โปรไฟล์ */
         .header-cover {
             width: 100%; height: 160px;
             background: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif') center/cover;
-            border-radius: 0 0 24px 24px;
-            position: relative;
+            border-radius: 0 0 24px 24px; position: relative;
         }
         .header-cover::after {
             content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
             background: linear-gradient(to top, var(--bg-main), transparent);
         }
 
-        /* โซนโปรไฟล์ */
         .profile-section { padding: 0 20px; position: relative; margin-top: -60px; z-index: 10; }
         .profile-pic-container { display: flex; align-items: flex-end; gap: 12px; }
 
@@ -107,25 +98,17 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
         }
-        .profile-pic:hover {
-            transform: scale(1.08) rotate(-5deg);
-            box-shadow: 0 0 25px var(--accent-glow);
-        }
+        .profile-pic:hover { transform: scale(1.08) rotate(-5deg); box-shadow: 0 0 25px var(--accent-glow); }
 
         .status-badge {
             background: rgba(139, 92, 246, 0.15); padding: 5px 14px;
             border-radius: 20px; font-size: 0.75rem; color: #fff;
             margin-bottom: 20px; border: 1px solid rgba(139, 92, 246, 0.3);
-            backdrop-filter: blur(5px);
-            animation: float 3s ease-in-out infinite;
+            backdrop-filter: blur(5px); animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        /* ชื่อ */
         .name-row { margin-top: 10px; }
         .name-info h1 { 
             margin: 0; font-size: 1.8rem; font-weight: 700; 
@@ -175,11 +158,16 @@
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
         }
         .progress-fill {
-            width: 0%; height: 100%;
-            background: linear-gradient(90deg, #8b5cf6, #d946ef);
-            border-radius: 3px; position: relative;
-            box-shadow: 0 0 10px var(--accent-glow);
+            width: 0%; height: 100%; background: linear-gradient(90deg, #8b5cf6, #d946ef);
+            border-radius: 3px; position: relative; box-shadow: 0 0 10px var(--accent-glow);
             transition: width 0.1s linear;
+        }
+
+        /* ป้ายยอดวิว (ใหม่) */
+        .view-badge {
+            background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 4px 12px; border-radius: 12px; font-weight: 600; color: #fff;
+            display: flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
         }
 
         /* กล่องปุ่มลิงก์ด้านล่าง */
@@ -244,7 +232,7 @@
         <div class="card reveal-3">
             <div class="card-header"><i class="fas fa-quote-left"></i> เกี่ยวกับฉัน</div>
             <div class="card-content">
-                " ถ้าอยากตรงเสป็ค ต้องกินสิบเป็คสิบเหล้า... "
+                " ถ้าอยากตตรงเสป็ค ต้องกินสิบเป็คสิบเหล้า... "
             </div>
         </div>
 
@@ -273,7 +261,17 @@
             </div>
         </div>
 
-        <div class="links-container reveal-6">
+        <div class="card reveal-6">
+            <div class="card-header"><i class="fas fa-eye"></i> จำนวนผู้เข้าชม</div>
+            <div class="card-content" style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-weight: 300;">Profile Views</span>
+                <div class="view-badge" id="view-count">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 0.8rem;"></i> โหลด...
+                </div>
+            </div>
+        </div>
+
+        <div class="links-container reveal-7">
             <a href="https://xenitzstore.shop" class="link-btn" target="_blank"><i class="fas fa-shopping-cart"></i> Website ขายโปร</a>
             <a href="https://easydonate.app/xdflex" class="link-btn" target="_blank"><i class="fas fa-hand-holding-usd"></i> link โดเนท</a>
             <a href="https://discord.gg/paWWE2nZzf" class="link-btn" target="_blank"><i class="fab fa-discord"></i> เข้าร่วม discord</a>
@@ -283,7 +281,7 @@
             <source src="Memory Reboot.mp3" type="audio/mpeg">
         </audio>
 
-        <div class="footer reveal-7">
+        <div class="footer reveal-8">
             © 2026 My bio • Made with 💻 by <a href="#">GEMINI PRO</a><br>
         </div>
 
@@ -296,32 +294,46 @@
         const timeDisplay = document.getElementById('time-display');
         const albumArt = document.getElementById('album-art');
 
+        // ฟังก์ชันดึงยอดวิวจาก Counter API
+        function fetchViewCount() {
+            // ใช้ชื่อโปรเจกต์คุณเป็น namespace เพื่อไม่ให้ซ้ำกับคนอื่น
+            fetch('https://api.counterapi.dev/v1/threewitprf/bio_views')
+                .then(response => response.json())
+                .then(data => {
+                    const countBadge = document.getElementById('view-count');
+                    countBadge.innerHTML = '<i class="fas fa-chart-line"></i> ' + data.count.toLocaleString();
+                })
+                .catch(error => {
+                    document.getElementById('view-count').innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+                });
+        }
+
         function enterSite() {
             const enterScreen = document.getElementById('enter-screen');
             const enterText = document.querySelector('.enter-text');
             
-            // 1. แอนิเมชันตัวหนังสือ (ซูมทะลุจอ + เบลอหายไป)
             enterText.style.transition = "all 0.6s cubic-bezier(0.25, 1, 0.5, 1)";
             enterText.style.transform = "scale(2)";
             enterText.style.letterSpacing = "15px";
             enterText.style.opacity = "0";
             enterText.style.filter = "blur(10px)";
             
-            // 2. หน้าจอดำค่อยๆ เฟดออกหลังจากตัวหนังสือเริ่มซูม
             enterScreen.style.transition = "opacity 0.7s ease 0.2s";
             enterScreen.style.opacity = '0';
 
-            // 3. เริ่มโหลดหน้า Bio พร้อมเล่นเพลง
             setTimeout(() => {
                 enterScreen.style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 
+                // เรียกใช้ฟังก์ชันนับยอดวิวตอนหน้าเว็บโหลดขึ้นมา
+                fetchViewCount();
+
                 audio.volume = 0.4;
                 audio.play().then(() => {
                     playIcon.className = "fas fa-pause";
                     albumArt.style.animationPlayState = "running";
                 }).catch((e) => {
-                    console.log("Audio play failed (maybe link missing)");
+                    console.log("Audio play failed");
                 });
             }, 800);
         }
