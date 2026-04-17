@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XENITZ STORE | Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #050505;
+            --card-bg: rgba(18, 18, 20, 0.6); /* ปรับให้ใสขึ้น */
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-main: #fafafa;
+            --text-muted: #a1a1aa;
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.5);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex; justify-content: center;
+            min-height: 100vh;
+            /* เพิ่มแสง Aurora หมุนวนเป็นพื้นหลัง */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.15), transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.15), transparent 40%);
+            background-attachment: fixed;
+            animation: bgPulse 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* หน้า Click to Enter */
+        #enter-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.9); z-index: 9999;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; transition: opacity 0.8s ease;
+        }
+        .enter-text { 
+            font-size: 1.2rem; letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--accent-glow);
+            animation: blink 1.5s infinite; 
+        }
+        @keyframes blink { 0%, 100% { opacity: 0.3; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.02); } }
+
+        /* คอนเทนเนอร์หลัก */
+        .container {
+            width: 100%; max-width: 420px;
+            position: relative;
+            padding-bottom: 2rem;
+            display: none; 
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* รูปปก */
+        .header-cover {
+            width: 100%; height: 160px;
+            background: url('https://images.unsplash.com/photo-1605629921711-2f6b00c6bbf4?q=80&w=1000&auto=format&fit=crop') center/cover;
+            border-radius: 0 0 24px 24px;
+            position: relative;
+        }
+        .header-cover::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to top, var(--bg-main), transparent);
+        }
+
+        /* โซนโปรไฟล์ */
+        .profile-section { padding: 0 20px; position: relative; margin-top: -60px; z-index: 10; }
+        
+        .profile-pic-container { display: flex; align-items: flex-end; gap: 12px; }
+
+        .profile-pic {
+            width: 110px; height: 110px; border-radius: 50%;
+            border: 4px solid var(--bg-main); object-fit: cover;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-pic:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        .status-badge {
+            background: rgba(139, 92, 246, 0.15); padding: 5px 14px;
+            border-radius: 20px; font-size: 0.75rem; color: #fff;
+            margin-bottom: 20px; border: 1px solid rgba(139, 92, 246, 0.3);
+            backdrop-filter: blur(5px);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* ชื่อ */
+        .name-row { margin-top: 10px; }
+        .name-info h1 { 
+            margin: 0; font-size: 1.8rem; font-weight: 700; 
+            background: linear-gradient(90deg, #fff, #d4d4d8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .name-info p { margin: 4px 0 0; font-size: 0.95rem; color: var(--text-muted); font-weight: 300; }
+
+        /* การ์ดข้อมูล (อัปเกรด Glassmorphism) */
+        .card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 20px; padding: 18px; margin: 15px 20px;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .card:hover { border-color: rgba(139, 92, 246, 0.3); transform: translateY(-2px); }
+
+        .card-header {
+            display: flex; align-items: center; gap: 8px;
+            color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;
+        }
+        .card-header i { color: var(--accent); }
+
+        .card-content { font-size: 0.95rem; line-height: 1.6; font-weight: 300; }
+
+        /* เครื่องเล่นเพลง */
+        .music-player { display: flex; gap: 15px; align-items: center; margin-bottom: 12px; }
+        .music-cover { 
+            width: 65px; height: 65px; border-radius: 50%; object-fit: cover; 
+            border: 2px solid var(--border-color);
+            /* เตรียมอนิเมชั่นหมุนแผ่นเสียง */
+            animation: spin 8s linear infinite;
+            animation-play-state: paused; /* หยุดไว้ตอนเริ่ม */
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .music-info { flex: 1; }
+        .music-artist { color: var(--accent); font-size: 0.8rem; font-weight: 600; margin-bottom: 2px; letter-spacing: 1px; }
+        .music-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
+        .music-time { font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
+        
+        .play-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border-color);
+            color: white; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: 0.3s;
+        }
+        .play-btn:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+
+        .progress-bar {
+            width: 100%; height: 6px; background: rgba(0,0,0,0.5);
+            border-radius: 3px; overflow: hidden; margin-top: 10px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+        }
+        .progress-fill {
+            width: 0%; height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #d946ef);
+            border-radius: 3px; position: relative;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* กล่องปุ่มลิงก์ด้านล่าง */
+        .links-container { padding: 0 20px; display: flex; flex-direction: column; gap: 14px; margin-top: 25px; }
+        
+        .link-btn {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 16px; border-radius: 16px;
+            text-align: center; text-decoration: none; font-size: 1rem; font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; justify-content: center; align-items: center; gap: 12px;
+            backdrop-filter: blur(10px); position: relative; overflow: hidden;
+        }
+
+        .link-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .link-btn:hover {
+            border-color: var(--accent); background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .link-btn:hover::before { left: 100%; }
+        
+        .link-btn i { font-size: 1.2rem; }
+        .link-btn:nth-child(3) i { color: #5865F2; /* สี Discord */ }
+
+        /* Footer */
+        .footer {
+            text-align: center; color: var(--text-muted); font-size: 0.8rem;
+            margin-top: 40px; padding: 0 20px; font-weight: 300;
+        }
+        .footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
+
+    </style>
+</head>
+<body>
+
+    <div id="enter-screen" onclick="enterSite()">
+        <div class="enter-text">[ Click to enter ]</div>
+    </div>
+
+    <div class="container" id="main-content">
+
+        <div class="header-cover"></div>
+
+        <div class="profile-section">
+            <div class="profile-pic-container">
+                <img src="https://scontent.fnak2-1.fna.fbcdn.net/v/t39.30808-1/419659267_1559733161458203_6192749366589961485_n.jpg?stp=c3.7.730.730a_dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_ohc=WXGCrAk6XR4Q7kNvwFZp91v&_nc_oc=AdqxErkC3klEIY1Zy78Z9kYOUr5iB9GCZAgDd_OANsbfzcE2PpztTl1CvL4_h9FJtulkhYi3-W6zdTxDNvkWRn-r&_nc_zt=24&_nc_ht=scontent.fnak2-1.fna&_nc_gid=AVkb-VIlQqETSVWCB9UeSQ&_nc_ss=7a3a8&oh=00_Af0D_5-WKJFnhP6l6pRjHuDdoWQQRC6_FfUrvyXUA8VBXQ&oe=69E7576E" alt="Profile" class="profile-pic">
+                <div class="status-badge">ซื้อโปรกดลิ้งด้านล่างเลย👀</div>
+            </div>
+
+            <div class="name-row">
+                <div class="name-info">
+                    <h1>Threewit IliIl</h1>
+                    <p>Welcome to My Bio</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><i class="fas fa-quote-left"></i> เกี่ยวกับฉัน</div>
+            <div class="card-content">
+                " ถ้าอยากตตรงเสป็ค ต้องกินสิบเป็คสิบเหล้า... "
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><i class="far fa-calendar-alt"></i> เป็นประชากรบนโลกตอน</div>
+            <div class="card-content" style="font-weight: 500;">
+                " ตอนเกิด "
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><i class="fas fa-compact-disc"></i> กำลังฟังเพลง</div>
+            <div class="music-player">
+                <img src="https://img2.pic.in.th/imageee6cf35a5100a0ad.md.png" alt="Album Art" class="music-cover" id="album-art">
+                <div class="music-info">
+                    <div class="music-artist">VØJ · Narvent</div>
+                    <div class="music-title">Memory Reboot(Slowed)</div>
+                    <div class="music-time" id="time-display">00:00 / 00:00</div>
+                </div>
+                <div class="play-btn" id="play-pause-btn" onclick="togglePlay()">
+                    <i class="fas fa-play" id="play-icon"></i>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="links-container">
+            <a href="https://xenitzstore.shop" class="link-btn" target="_blank"><i class="fas fa-shopping-cart"></i> Website ขายโปร</a>
+            <a href="https://easydonate.app/xdflex" class="link-btn" target="_blank"><i class="fas fa-hand-holding-usd"></i> link โดเนท</a>
+            <a href="https://discord.gg/paWWE2nZzf" class="link-btn" target="_blank"><i class="fab fa-discord"></i> เข้าร่วม discord</a>
+        </div>
+
+        <audio id="bg-music" loop>
+            <source src="Memory Reboot.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="footer">
+            © 2026 My bio • Made with 💻 by <a href="#">GEMINI PRO</a><br>
+        </div>
+
+    </div>
+
+    <script>
+        const audio = document.getElementById('bg-music');
+        const playIcon = document.getElementById('play-icon');
+        const progressFill = document.getElementById('progress-fill');
+        const timeDisplay = document.getElementById('time-display');
+        const albumArt = document.getElementById('album-art');
+
+        function enterSite() {
+            document.getElementById('enter-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('enter-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                
+                audio.volume = 0.4;
+                // ถ้ามีไฟล์เพลงถูกแบคไว้ จะเล่นและหมุนปก
+                audio.play().then(() => {
+                    playIcon.className = "fas fa-pause";
+                    albumArt.style.animationPlayState = "running";
+                }).catch((e) => {
+                    console.log("Audio play failed (maybe link missing)");
+                });
+            }, 800);
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = "fas fa-pause";
+                albumArt.style.animationPlayState = "running";
+            } else {
+                audio.pause();
+                playIcon.className = "fas fa-play";
+                albumArt.style.animationPlayState = "paused";
+            }
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const currentTime = audio.currentTime;
+            const duration = audio.duration;
+            
+            if(duration) {
+                const progressPercent = (currentTime / duration) * 100;
+                progressFill.style.width = progressPercent + '%';
+
+                let currentMin = Math.floor(currentTime / 60);
+                let currentSec = Math.floor(currentTime % 60);
+                let durationMin = Math.floor(duration / 60);
+                let durationSec = Math.floor(duration % 60);
+
+                if(currentSec < 10) currentSec = "0" + currentSec;
+                if(durationSec < 10) durationSec = "0" + durationSec;
+
+                timeDisplay.textContent = `${currentMin}:${currentSec} / ${durationMin}:${durationSec}`;
+            }
+        });
+    </script>
+</body>
+</html>
