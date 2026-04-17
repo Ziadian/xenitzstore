@@ -38,7 +38,7 @@
             100% { background-position: 100% 100%; }
         }
 
-        /* เอฟเฟกต์หน้า Click to Enter */
+        /* ---------------- เอฟเฟกต์หน้า Click to Enter ---------------- */
         #enter-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.95); z-index: 9999;
@@ -58,7 +58,6 @@
             50% { opacity: 1; transform: scale(1.02); } 
         }
 
-        /* เอฟเฟกต์ตอนเผยหน้า Bio */
         .container {
             width: 100%; max-width: 420px; position: relative;
             padding-bottom: 2rem; display: none;
@@ -78,7 +77,7 @@
         .reveal-7 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; opacity: 0; }
         .reveal-8 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.7s forwards; opacity: 0; }
 
-        /* รูปปก & โปรไฟล์ */
+        /* ---------------- รูปปก & โปรไฟล์ RGB ---------------- */
         .header-cover {
             width: 100%; height: 160px;
             background: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif') center/cover;
@@ -92,22 +91,34 @@
         .profile-section { padding: 0 20px; position: relative; margin-top: -60px; z-index: 10; }
         .profile-pic-container { display: flex; align-items: flex-end; gap: 12px; }
 
+        /* แอนิเมชัน RGB สำหรับเงารูปโปรไฟล์ */
+        @keyframes rgbShadow {
+            0% { box-shadow: 0 0 20px #ff0000, inset 0 0 10px #ff0000; border-color: #ff0000; }
+            20% { box-shadow: 0 0 20px #ffff00, inset 0 0 10px #ffff00; border-color: #ffff00; }
+            40% { box-shadow: 0 0 20px #00ff00, inset 0 0 10px #00ff00; border-color: #00ff00; }
+            60% { box-shadow: 0 0 20px #00ffff, inset 0 0 10px #00ffff; border-color: #00ffff; }
+            80% { box-shadow: 0 0 20px #0000ff, inset 0 0 10px #0000ff; border-color: #0000ff; }
+            100% { box-shadow: 0 0 20px #ff0000, inset 0 0 10px #ff0000; border-color: #ff0000; }
+        }
+
         .profile-pic {
             width: 110px; height: 110px; border-radius: 50%;
-            border: 4px solid var(--bg-main); object-fit: cover;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            border: 3px solid var(--bg-main); object-fit: cover;
+            animation: rgbShadow 5s linear infinite; /* เปิดใช้งาน RGB เงา */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .profile-pic:hover { transform: scale(1.08) rotate(-5deg); box-shadow: 0 0 25px var(--accent-glow); }
+        .profile-pic:hover { transform: scale(1.08) rotate(-5deg); }
 
+        /* ป้ายสถานะลอยได้ */
         .status-badge {
             background: rgba(139, 92, 246, 0.15); padding: 5px 14px;
             border-radius: 20px; font-size: 0.75rem; color: #fff;
             margin-bottom: 20px; border: 1px solid rgba(139, 92, 246, 0.3);
-            backdrop-filter: blur(5px); animation: float 3s ease-in-out infinite;
+            backdrop-filter: blur(5px); 
+            animation: float 3s ease-in-out infinite; /* ลอยขึ้นลง */
         }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
         .name-row { margin-top: 10px; }
         .name-info h1 { 
@@ -115,22 +126,58 @@
             background: linear-gradient(90deg, #fff, #d4d4d8);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .name-info p { margin: 4px 0 0; font-size: 0.95rem; color: var(--text-muted); font-weight: 300; }
 
-        /* การ์ดข้อมูล */
+        /* เอฟเฟกต์พิมพ์ดีด (Typewriter) */
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--text-main);
+            margin: 4px 0 0; font-size: 0.95rem; color: var(--text-muted); font-weight: 300;
+            animation: typing 3s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
+            max-width: 0;
+        }
+        @keyframes typing { from { max-width: 0; } to { max-width: 100%; } }
+        @keyframes blink-caret { from, to { border-color: transparent; } 50% { border-color: var(--accent); } }
+
+        /* ---------------- การ์ดข้อมูล & RGB Hover ---------------- */
+        @keyframes glowingRGB {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+
         .card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: 20px; padding: 18px; margin: 15px 20px;
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.3s ease;
+            position: relative; /* สำหรับทำกรอบ RGB */
+            z-index: 1;
         }
-        .card:hover { border-color: rgba(139, 92, 246, 0.3); transform: translateY(-2px); }
+        
+        /* กรอบ RGB ที่ซ่อนอยู่ด้านหลังการ์ด */
+        .card::before {
+            content: ''; position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400%; z-index: -1;
+            filter: blur(5px); border-radius: 22px;
+            opacity: 0; /* ซ่อนไว้ก่อน */
+            transition: opacity 0.3s ease-in-out;
+            animation: glowingRGB 20s linear infinite;
+        }
+
+        /* เมื่อเอาเมาส์ชี้ หรือเอานิ้วกด จะโชว์กรอบ RGB */
+        .card:hover { transform: translateY(-2px); border-color: transparent; }
+        .card:hover::before { opacity: 1; }
+
         .card-header { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px; }
         .card-header i { color: var(--accent); }
         .card-content { font-size: 0.95rem; line-height: 1.6; font-weight: 300; }
 
-        /* เครื่องเล่นเพลง */
+        /* ---------------- เครื่องเล่นเพลง ---------------- */
         .music-player { display: flex; gap: 15px; align-items: center; margin-bottom: 12px; }
         .music-cover { 
             width: 65px; height: 65px; border-radius: 50%; object-fit: cover; 
@@ -163,14 +210,14 @@
             transition: width 0.1s linear;
         }
 
-        /* ป้ายยอดวิว */
+        /* ---------------- ป้ายยอดวิว ---------------- */
         .view-badge {
             background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3);
             padding: 4px 12px; border-radius: 12px; font-weight: 600; color: #fff;
             display: flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
         }
 
-        /* กล่องปุ่มลิงก์ด้านล่าง */
+        /* ---------------- กล่องปุ่มลิงก์ด้านล่าง ---------------- */
         .links-container { padding: 0 20px; display: flex; flex-direction: column; gap: 14px; margin-top: 25px; }
         
         .link-btn {
@@ -180,23 +227,27 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex; justify-content: center; align-items: center; gap: 12px;
             backdrop-filter: blur(10px); position: relative; overflow: hidden;
+            z-index: 1;
         }
-        .link-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.5s;
-        }
-        .link-btn:hover {
-            border-color: var(--accent); background: rgba(139, 92, 246, 0.1);
-            transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        .link-btn:hover::before { left: 100%; }
         
-        .link-btn i { font-size: 1.2rem; transition: transform 0.3s; }
+        /* ใส่ RGB Hover ให้ปุ่ม Link ด้วยเหมือนกัน */
+        .link-btn::after {
+            content: ''; position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400%; z-index: -1;
+            border-radius: 18px; opacity: 0;
+            transition: opacity 0.3s ease; animation: glowingRGB 20s linear infinite;
+        }
+
+        .link-btn:hover { transform: translateY(-3px) scale(1.02); border-color: transparent; color: #fff; }
+        .link-btn:hover::after { opacity: 1; }
+        
+        .link-btn i { font-size: 1.2rem; transition: transform 0.3s; z-index: 2; }
         .link-btn:hover i { transform: scale(1.2); }
         .link-btn:nth-child(3) i { color: #5865F2; }
 
-        /* Footer */
+        /* ---------------- Footer ---------------- */
         .footer {
             text-align: center; color: var(--text-muted); font-size: 0.8rem;
             margin-top: 40px; padding: 0 20px; font-weight: 300;
@@ -224,7 +275,7 @@
             <div class="name-row">
                 <div class="name-info">
                     <h1>Threewit IliIl</h1>
-                    <p>Welcome to My Bio</p>
+                    <p class="typewriter">Welcome to My Bio</p>
                 </div>
             </div>
         </div>
@@ -232,13 +283,12 @@
         <div class="card reveal-3">
             <div class="card-header"><i class="fas fa-quote-left"></i> เกี่ยวกับฉัน</div>
             <div class="card-content">
-                 รับตัวแทนขาย Key Drip Client<br>
-                 ราคาต่อ key 🔑<br>
-                 1วัน / 25฿ (เอาขั้นต่ำ 5key)<br>
-                 7วัน / 150฿<br>
-                 15วัน / 230฿<br>
-                 30วัน / 400฿
-                
+                รับตัวแทนขาย Key Drip Client<br>
+                ราคาต่อ key 🔑<br>
+                1วัน / 25฿ (เอาขั้นต่ำ 5key)<br>
+                7วัน / 150฿<br>
+                15วัน / 230฿<br>
+                30วัน / 400฿
             </div>
         </div>
 
@@ -278,7 +328,7 @@
         </div>
 
         <div class="links-container reveal-7">
-            <a href="https://xenitzstore.shop" class="link-btn" target="_blank"><i class="fas fa-shopping-cart"></i> Website ขายของ</a>
+            <a href="https://xenitzstore.shop" class="link-btn" target="_blank"><i class="fas fa-shopping-cart"></i> Website ขายโปร</a>
             <a href="https://easydonate.app/xdflex" class="link-btn" target="_blank"><i class="fas fa-hand-holding-usd"></i> link โดเนท</a>
             <a href="https://discord.gg/paWWE2nZzf" class="link-btn" target="_blank"><i class="fab fa-discord"></i> เข้าร่วม discord</a>
         </div>
@@ -300,7 +350,6 @@
         const timeDisplay = document.getElementById('time-display');
         const albumArt = document.getElementById('album-art');
 
-        // ฟังก์ชันดึงยอดวิวจาก Counter API พร้อม /up เพื่อนับยอดแล้ว
         function fetchViewCount() {
             fetch('https://api.counterapi.dev/v1/threewitprf/bio_views/up')
                 .then(response => response.json())
@@ -330,7 +379,6 @@
                 enterScreen.style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 
-                // โหลดหน้าเสร็จปุ๊บ สั่งนับยอดวิวทันที
                 fetchViewCount();
 
                 audio.volume = 0.4;
@@ -377,3 +425,4 @@
     </script>
 </body>
 </html>
+
