@@ -91,7 +91,6 @@
         .profile-section { padding: 0 20px; position: relative; margin-top: -60px; z-index: 10; }
         .profile-pic-container { display: flex; align-items: flex-end; gap: 12px; }
 
-        /* แอนิเมชัน RGB สำหรับเงารูปโปรไฟล์ */
         @keyframes rgbShadow {
             0% { box-shadow: 0 0 20px #ff0000, inset 0 0 10px #ff0000; border-color: #ff0000; }
             20% { box-shadow: 0 0 20px #ffff00, inset 0 0 10px #ffff00; border-color: #ffff00; }
@@ -104,30 +103,73 @@
         .profile-pic {
             width: 110px; height: 110px; border-radius: 50%;
             border: 3px solid var(--bg-main); object-fit: cover;
-            animation: rgbShadow 5s linear infinite; /* เปิดใช้งาน RGB เงา */
+            animation: rgbShadow 5s linear infinite; 
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .profile-pic:hover { transform: scale(1.08) rotate(-5deg); }
 
-        /* ป้ายสถานะลอยได้ */
         .status-badge {
             background: rgba(139, 92, 246, 0.15); padding: 5px 14px;
             border-radius: 20px; font-size: 0.75rem; color: #fff;
             margin-bottom: 20px; border: 1px solid rgba(139, 92, 246, 0.3);
             backdrop-filter: blur(5px); 
-            animation: float 3s ease-in-out infinite; /* ลอยขึ้นลง */
+            animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
         .name-row { margin-top: 10px; }
-        .name-info h1 { 
+
+        /* ---------------- เอฟเฟกต์ชื่อแบบ Hacker Glitch (เพิ่มใหม่) ---------------- */
+        .glitch-hacker {
             margin: 0; font-size: 1.8rem; font-weight: 700; 
-            background: linear-gradient(90deg, #fff, #d4d4d8);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            color: #fff;
+            position: relative;
+            display: inline-block;
+            animation: hackerFlicker 3s infinite; /* ไฟกระพริบ */
         }
 
-        /* เอฟเฟกต์พิมพ์ดีด (Typewriter) */
+        /* สร้าง Layer ซ้อนกันเพื่อทำภาพแตก */
+        .glitch-hacker::before, .glitch-hacker::after {
+            content: attr(data-text); /* ดึงข้อความจาก data-text มาแสดง */
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent; pointer-events: none;
+        }
+        
+        .glitch-hacker::before {
+            left: 2px; text-shadow: -1px 0 rgba(0, 255, 255, 0.8); /* สีฟ้า Cyan */
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+        
+        .glitch-hacker::after {
+            left: -2px; text-shadow: -1px 0 rgba(255, 0, 255, 0.8); /* สีชมพู Magenta */
+            animation: glitch-anim2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes hackerFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.7; }
+        }
+
+        @keyframes glitch-anim {
+            0% { clip-path: inset(10% 0 80% 0); transform: translate(0); }
+            20% { clip-path: inset(40% 0 20% 0); transform: translate(-2px, 1px); }
+            40% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -1px); }
+            60% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, -1px); }
+            80% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 1px); }
+            100% { clip-path: inset(30% 0 10% 0); transform: translate(0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip-path: inset(20% 0 60% 0); transform: translate(0); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+            40% { clip-path: inset(10% 0 40% 0); transform: translate(-2px, 1px); }
+            60% { clip-path: inset(50% 0 20% 0); transform: translate(2px, 1px); }
+            80% { clip-path: inset(30% 0 50% 0); transform: translate(-2px, -1px); }
+            100% { clip-path: inset(80% 0 5% 0); transform: translate(0); }
+        }
+
+        /* ---------------- เอฟเฟกต์พิมพ์ดีด (Typewriter) ---------------- */
         .typewriter {
             display: inline-block;
             overflow: hidden;
@@ -152,24 +194,19 @@
             border-radius: 20px; padding: 18px; margin: 15px 20px;
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
-            position: relative; /* สำหรับทำกรอบ RGB */
-            z-index: 1;
+            transition: transform 0.3s ease; position: relative; z-index: 1;
         }
         
-        /* กรอบ RGB ที่ซ่อนอยู่ด้านหลังการ์ด */
         .card::before {
             content: ''; position: absolute;
             top: -2px; left: -2px; right: -2px; bottom: -2px;
             background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
             background-size: 400%; z-index: -1;
             filter: blur(5px); border-radius: 22px;
-            opacity: 0; /* ซ่อนไว้ก่อน */
-            transition: opacity 0.3s ease-in-out;
+            opacity: 0; transition: opacity 0.3s ease-in-out;
             animation: glowingRGB 20s linear infinite;
         }
 
-        /* เมื่อเอาเมาส์ชี้ หรือเอานิ้วกด จะโชว์กรอบ RGB */
         .card:hover { transform: translateY(-2px); border-color: transparent; }
         .card:hover::before { opacity: 1; }
 
@@ -230,7 +267,6 @@
             z-index: 1;
         }
         
-        /* ใส่ RGB Hover ให้ปุ่ม Link ด้วยเหมือนกัน */
         .link-btn::after {
             content: ''; position: absolute;
             top: -2px; left: -2px; right: -2px; bottom: -2px;
@@ -274,7 +310,7 @@
 
             <div class="name-row">
                 <div class="name-info">
-                    <h1>Threewit IliIl</h1>
+                    <h1 class="glitch-hacker" data-text="Threewit IliIl">𝗧𝗵𝗿𝗲𝗲𝘄𝗶𝘁 𝗜𝗹𝗶𝗜𝗹</h1>
                     <p class="typewriter">Welcome to My Bio</p>
                 </div>
             </div>
