@@ -163,7 +163,7 @@
             transition: width 0.1s linear;
         }
 
-        /* ป้ายยอดวิว (ใหม่) */
+        /* ป้ายยอดวิว */
         .view-badge {
             background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3);
             padding: 4px 12px; border-radius: 12px; font-weight: 600; color: #fff;
@@ -294,10 +294,9 @@
         const timeDisplay = document.getElementById('time-display');
         const albumArt = document.getElementById('album-art');
 
-        // ฟังก์ชันดึงยอดวิวจาก Counter API
+        // ฟังก์ชันดึงยอดวิวจาก Counter API พร้อม /up เพื่อนับยอดแล้ว
         function fetchViewCount() {
-            // ใช้ชื่อโปรเจกต์คุณเป็น namespace เพื่อไม่ให้ซ้ำกับคนอื่น
-            fetch('https://api.counterapi.dev/v1/threewitprf/bio_views')
+            fetch('https://api.counterapi.dev/v1/threewitprf/bio_views/up')
                 .then(response => response.json())
                 .then(data => {
                     const countBadge = document.getElementById('view-count');
@@ -325,7 +324,7 @@
                 enterScreen.style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 
-                // เรียกใช้ฟังก์ชันนับยอดวิวตอนหน้าเว็บโหลดขึ้นมา
+                // โหลดหน้าเสร็จปุ๊บ สั่งนับยอดวิวทันที
                 fetchViewCount();
 
                 audio.volume = 0.4;
