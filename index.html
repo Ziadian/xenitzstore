@@ -9,7 +9,7 @@
     <style>
         :root {
             --bg-main: #050505;
-            --card-bg: rgba(18, 18, 20, 0.6); /* ปรับให้ใสขึ้น */
+            --card-bg: rgba(18, 18, 20, 0.6);
             --border-color: rgba(255, 255, 255, 0.08);
             --text-main: #fafafa;
             --text-muted: #a1a1aa;
@@ -26,7 +26,6 @@
             color: var(--text-main);
             display: flex; justify-content: center;
             min-height: 100vh;
-            /* เพิ่มแสง Aurora หมุนวนเป็นพื้นหลัง */
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.15), transparent 40%),
                 radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.15), transparent 40%);
@@ -39,39 +38,57 @@
             100% { background-position: 100% 100%; }
         }
 
-        /* หน้า Click to Enter */
+        /* -------------------------------------
+           เอฟเฟกต์หน้า Click to Enter 
+           ------------------------------------- */
         #enter-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.9); z-index: 9999;
+            background: rgba(0,0,0,0.95); z-index: 9999;
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; transition: opacity 0.8s ease;
+            cursor: pointer; 
         }
+        
         .enter-text { 
             font-size: 1.2rem; letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--accent-glow);
-            animation: blink 1.5s infinite; 
+            text-shadow: 0 0 15px var(--accent-glow);
+            animation: pulseGlow 2s infinite; 
         }
-        @keyframes blink { 0%, 100% { opacity: 0.3; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.02); } }
 
-        /* คอนเทนเนอร์หลัก */
+        @keyframes pulseGlow { 
+            0%, 100% { opacity: 0.5; transform: scale(0.98); } 
+            50% { opacity: 1; transform: scale(1.02); } 
+        }
+
+        /* -------------------------------------
+           เอฟเฟกต์ตอนเผยหน้า Bio (Staggered Animation)
+           ------------------------------------- */
         .container {
             width: 100%; max-width: 420px;
             position: relative;
             padding-bottom: 2rem;
-            display: none; 
-            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            display: none; /* ถูกควบคุมด้วย JS */
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes smoothReveal {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(10px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
+
+        /* ตั้งค่าความหน่วงให้แต่ละส่วนเด้งขึ้นมาไม่พร้อมกัน */
+        .reveal-1 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
+        .reveal-2 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards; opacity: 0; }
+        .reveal-3 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards; opacity: 0; }
+        .reveal-4 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards; opacity: 0; }
+        .reveal-5 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards; opacity: 0; }
+        .reveal-6 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s forwards; opacity: 0; }
+        .reveal-7 { animation: smoothReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; opacity: 0; }
+
 
         /* รูปปก */
         .header-cover {
             width: 100%; height: 160px;
-            background: url('https://images.unsplash.com/photo-1605629921711-2f6b00c6bbf4?q=80&w=1000&auto=format&fit=crop') center/cover;
+            background: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif') center/cover;
             border-radius: 0 0 24px 24px;
             position: relative;
         }
@@ -82,17 +99,16 @@
 
         /* โซนโปรไฟล์ */
         .profile-section { padding: 0 20px; position: relative; margin-top: -60px; z-index: 10; }
-        
         .profile-pic-container { display: flex; align-items: flex-end; gap: 12px; }
 
         .profile-pic {
             width: 110px; height: 110px; border-radius: 50%;
             border: 4px solid var(--bg-main); object-fit: cover;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
         }
         .profile-pic:hover {
-            transform: scale(1.05);
+            transform: scale(1.08) rotate(-5deg);
             box-shadow: 0 0 25px var(--accent-glow);
         }
 
@@ -118,7 +134,7 @@
         }
         .name-info p { margin: 4px 0 0; font-size: 0.95rem; color: var(--text-muted); font-weight: 300; }
 
-        /* การ์ดข้อมูล (อัปเกรด Glassmorphism) */
+        /* การ์ดข้อมูล */
         .card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: 20px; padding: 18px; margin: 15px 20px;
@@ -127,13 +143,8 @@
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
         .card:hover { border-color: rgba(139, 92, 246, 0.3); transform: translateY(-2px); }
-
-        .card-header {
-            display: flex; align-items: center; gap: 8px;
-            color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;
-        }
+        .card-header { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px; }
         .card-header i { color: var(--accent); }
-
         .card-content { font-size: 0.95rem; line-height: 1.6; font-weight: 300; }
 
         /* เครื่องเล่นเพลง */
@@ -141,9 +152,7 @@
         .music-cover { 
             width: 65px; height: 65px; border-radius: 50%; object-fit: cover; 
             border: 2px solid var(--border-color);
-            /* เตรียมอนิเมชั่นหมุนแผ่นเสียง */
-            animation: spin 8s linear infinite;
-            animation-play-state: paused; /* หยุดไว้ตอนเริ่ม */
+            animation: spin 8s linear infinite; animation-play-state: paused; 
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
@@ -170,6 +179,7 @@
             background: linear-gradient(90deg, #8b5cf6, #d946ef);
             border-radius: 3px; position: relative;
             box-shadow: 0 0 10px var(--accent-glow);
+            transition: width 0.1s linear;
         }
 
         /* กล่องปุ่มลิงก์ด้านล่าง */
@@ -183,21 +193,20 @@
             display: flex; justify-content: center; align-items: center; gap: 12px;
             backdrop-filter: blur(10px); position: relative; overflow: hidden;
         }
-
         .link-btn::before {
             content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
             transition: 0.5s;
         }
-
         .link-btn:hover {
             border-color: var(--accent); background: rgba(139, 92, 246, 0.1);
-            transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         .link-btn:hover::before { left: 100%; }
         
-        .link-btn i { font-size: 1.2rem; }
-        .link-btn:nth-child(3) i { color: #5865F2; /* สี Discord */ }
+        .link-btn i { font-size: 1.2rem; transition: transform 0.3s; }
+        .link-btn:hover i { transform: scale(1.2); }
+        .link-btn:nth-child(3) i { color: #5865F2; }
 
         /* Footer */
         .footer {
@@ -216,9 +225,9 @@
 
     <div class="container" id="main-content">
 
-        <div class="header-cover"></div>
+        <div class="header-cover reveal-1"></div>
 
-        <div class="profile-section">
+        <div class="profile-section reveal-2">
             <div class="profile-pic-container">
                 <img src="https://scontent.fnak2-1.fna.fbcdn.net/v/t39.30808-1/419659267_1559733161458203_6192749366589961485_n.jpg?stp=c3.7.730.730a_dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_ohc=WXGCrAk6XR4Q7kNvwFZp91v&_nc_oc=AdqxErkC3klEIY1Zy78Z9kYOUr5iB9GCZAgDd_OANsbfzcE2PpztTl1CvL4_h9FJtulkhYi3-W6zdTxDNvkWRn-r&_nc_zt=24&_nc_ht=scontent.fnak2-1.fna&_nc_gid=AVkb-VIlQqETSVWCB9UeSQ&_nc_ss=7a3a8&oh=00_Af0D_5-WKJFnhP6l6pRjHuDdoWQQRC6_FfUrvyXUA8VBXQ&oe=69E7576E" alt="Profile" class="profile-pic">
                 <div class="status-badge">ซื้อโปรกดลิ้งด้านล่างเลย👀</div>
@@ -232,21 +241,21 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card reveal-3">
             <div class="card-header"><i class="fas fa-quote-left"></i> เกี่ยวกับฉัน</div>
             <div class="card-content">
                 " ถ้าอยากตตรงเสป็ค ต้องกินสิบเป็คสิบเหล้า... "
             </div>
         </div>
 
-        <div class="card">
+        <div class="card reveal-4">
             <div class="card-header"><i class="far fa-calendar-alt"></i> เป็นประชากรบนโลกตอน</div>
             <div class="card-content" style="font-weight: 500;">
                 " ตอนเกิด "
             </div>
         </div>
 
-        <div class="card">
+        <div class="card reveal-5">
             <div class="card-header"><i class="fas fa-compact-disc"></i> กำลังฟังเพลง</div>
             <div class="music-player">
                 <img src="https://img2.pic.in.th/imageee6cf35a5100a0ad.md.png" alt="Album Art" class="music-cover" id="album-art">
@@ -264,7 +273,7 @@
             </div>
         </div>
 
-        <div class="links-container">
+        <div class="links-container reveal-6">
             <a href="https://xenitzstore.shop" class="link-btn" target="_blank"><i class="fas fa-shopping-cart"></i> Website ขายโปร</a>
             <a href="https://easydonate.app/xdflex" class="link-btn" target="_blank"><i class="fas fa-hand-holding-usd"></i> link โดเนท</a>
             <a href="https://discord.gg/paWWE2nZzf" class="link-btn" target="_blank"><i class="fab fa-discord"></i> เข้าร่วม discord</a>
@@ -274,7 +283,7 @@
             <source src="Memory Reboot.mp3" type="audio/mpeg">
         </audio>
 
-        <div class="footer">
+        <div class="footer reveal-7">
             © 2026 My bio • Made with 💻 by <a href="#">GEMINI PRO</a><br>
         </div>
 
@@ -288,13 +297,26 @@
         const albumArt = document.getElementById('album-art');
 
         function enterSite() {
-            document.getElementById('enter-screen').style.opacity = '0';
+            const enterScreen = document.getElementById('enter-screen');
+            const enterText = document.querySelector('.enter-text');
+            
+            // 1. แอนิเมชันตัวหนังสือ (ซูมทะลุจอ + เบลอหายไป)
+            enterText.style.transition = "all 0.6s cubic-bezier(0.25, 1, 0.5, 1)";
+            enterText.style.transform = "scale(2)";
+            enterText.style.letterSpacing = "15px";
+            enterText.style.opacity = "0";
+            enterText.style.filter = "blur(10px)";
+            
+            // 2. หน้าจอดำค่อยๆ เฟดออกหลังจากตัวหนังสือเริ่มซูม
+            enterScreen.style.transition = "opacity 0.7s ease 0.2s";
+            enterScreen.style.opacity = '0';
+
+            // 3. เริ่มโหลดหน้า Bio พร้อมเล่นเพลง
             setTimeout(() => {
-                document.getElementById('enter-screen').style.display = 'none';
+                enterScreen.style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 
                 audio.volume = 0.4;
-                // ถ้ามีไฟล์เพลงถูกแบคไว้ จะเล่นและหมุนปก
                 audio.play().then(() => {
                     playIcon.className = "fas fa-pause";
                     albumArt.style.animationPlayState = "running";
